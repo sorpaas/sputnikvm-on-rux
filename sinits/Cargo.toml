@@ -11,6 +11,10 @@ crate-type = ["staticlib"]
 name = "rlp"
 crate-type = ["staticlib"]
 
+[[example]]
+name = "sputnikvm"
+crate-type = ["staticlib"]
+
 [dependencies.system]
 path = "../rux/system"
 features = ["kernel_debug"]

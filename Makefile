@@ -18,3 +18,6 @@ sinit-allocator: kernel-release
 
 sinit-rlp: kernel-release
 	@make -C sinits version=release kernel=$(shell realpath $(kernel)) test=rlp test
+
+sinit-sputnikvm: kernel-release
+	@make -C sinits version=release kernel=$(shell realpath $(kernel)) test=sputnikvm test
