@@ -199,6 +199,18 @@ macro_rules! impl_hash {
 			}
 		}
 
+        impl Ord for $from {
+            fn cmp(&self, other: &Self) -> Ordering {
+                self.0.as_ref().cmp(other.0.as_ref())
+            }
+        }
+
+        impl PartialOrd for $from {
+            fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+                self.0.as_ref().partial_cmp(other.0.as_ref())
+            }
+        }
+
 		impl Hash for $from {
 			fn hash<H>(&self, state: &mut H) where H: Hasher {
 				state.write(&self.0);
