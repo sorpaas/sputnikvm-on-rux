@@ -1,0 +1,18 @@
+[package]
+name = "test-userspace"
+version = "0.1.0"
+authors = ["Wei Tang <hi@that.world>"]
+
+[[example]]
+name = "allocator"
+crate-type = ["staticlib"]
+
+[dependencies.system]
+path = "../rux/system"
+features = ["kernel_debug"]
+
+[dependencies.spin]
+path = "../rux/spin"
+
+[dependencies.selfalloc]
+path = "../rux/selfalloc"
