@@ -30,7 +30,7 @@ fn start(_argc: isize, _argv: *const *const u8) {
 
     let parent_hash = H256::from_str("0x0000000000000000000000000000000000000000000000000000000000000000").unwrap();
 
-    if parent_hash == block_raw.val_at::<H256>(0) {
+    if parent_hash == block_raw.at(0).val_at::<H256>(0) {
         system::debug_test_succeed();
     } else {
         system::debug_test_fail();
