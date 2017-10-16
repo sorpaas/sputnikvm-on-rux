@@ -1,0 +1,3 @@
+[submodule "rux"]
+	path = rux
+	url = https://source.that.world/source/rux.git
