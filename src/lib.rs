@@ -8,6 +8,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate alloc;
 
-mod rlp;
-mod elastic_array;
-mod hexutil;
+pub mod rlp;
+pub mod elastic_array;
+pub mod hexutil;
+pub mod bigint;
