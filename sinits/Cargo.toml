@@ -7,6 +7,10 @@ authors = ["Wei Tang <hi@that.world>"]
 name = "allocator"
 crate-type = ["staticlib"]
 
+[[example]]
+name = "rlp"
+crate-type = ["staticlib"]
+
 [dependencies.system]
 path = "../rux/system"
 features = ["kernel_debug"]

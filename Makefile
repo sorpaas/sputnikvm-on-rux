@@ -15,3 +15,6 @@ kernel-release:
 
 sinit-allocator: kernel-release
 	@make -C sinits version=release kernel=$(shell realpath $(kernel)) test=allocator test
+
+sinit-rlp: kernel-release
+	@make -C sinits version=release kernel=$(shell realpath $(kernel)) test=rlp test

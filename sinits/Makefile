@@ -14,4 +14,4 @@ else
 endif
 
 test: build
-	./run.sh qemu-system-$(ARCH) -d int -no-reboot -vnc :1 -device isa-debug-exit -kernel $(kernel) -initrd $(rinit) -serial stdio
+	./run.sh qemu-system-$(ARCH) -no-reboot -vnc :1 -device isa-debug-exit -kernel $(kernel) -initrd $(rinit) -serial stdio
