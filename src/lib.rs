@@ -10,3 +10,4 @@ extern crate alloc;
 
 mod rlp;
 mod elastic_array;
+mod hexutil;

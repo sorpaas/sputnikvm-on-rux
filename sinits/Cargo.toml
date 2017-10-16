@@ -16,3 +16,6 @@ path = "../rux/spin"
 
 [dependencies.selfalloc]
 path = "../rux/selfalloc"
+
+[dependencies.sputnikvm-nostd]
+path = ".."
