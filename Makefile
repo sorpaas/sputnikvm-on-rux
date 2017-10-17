@@ -21,3 +21,5 @@ sinit-rlp: kernel-release
 
 sinit-sputnikvm: kernel-release
 	@make -C sinits version=release kernel=$(shell realpath $(kernel)) test=sputnikvm test
+
+test-all: sinit-allocator sinit-rlp sinit-sputnikvm
