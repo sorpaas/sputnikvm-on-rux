@@ -16,7 +16,7 @@ use alloc::Vec;
 use alloc::str::FromStr;
 
 use system::{CAddr};
-use sputnikvm::{VM, HeaderParams, Context, SeqContextVM, MainnetEmbeddedPatch, RequireError, AccountCommitment};
+use sputnikvm::{VM, HeaderParams, Context, SeqContextVM, MainnetEmbeddedPatch, RequireError, AccountCommitment, TransactionAction, ValidTransaction, VMStatus, SeqTransactionVM};
 use sputnikvm::bigint::{Gas, H256, U256, Address};
 use sputnikvm::rlp::Rlp;
 use sputnikvm::hexutil::*;
@@ -48,7 +48,7 @@ fn start(_argc: isize, _argv: *const *const u8) {
         is_system: false,
     };
 
-    let mut vm = SeqContextVM::<MainnetEmbeddedPatch>::new(context, header);
+    let mut vm = SeqContextVM::<MainnetEmbeddedPatch>::new(context, header.clone());
     // TODO: Shouldn't require any RequireError.
     loop {
         match vm.fire() {
@@ -68,9 +68,43 @@ fn start(_argc: isize, _argv: *const *const u8) {
         }
     }
 
-    if vm.available_gas() == Gas::from_str("0x013874").unwrap() {
-        system::debug_test_succeed();
-    } else {
+    if vm.available_gas() != Gas::from_str("0x013874").unwrap() {
         system::debug_test_fail();
+        return;
+    }
+
+    let transaction = ValidTransaction {
+        caller: None,
+        gas_price: Gas::zero(),
+        gas_limit: Gas::max_value(),
+        action: TransactionAction::Call(Address::default()),
+        value: U256::from_str("0x10000000000").unwrap(),
+        input: Vec::new(),
+        nonce: U256::zero(),
+    };
+
+    let mut vm = SeqTransactionVM::<MainnetEmbeddedPatch>::new(transaction, header.clone());
+    // TODO: Shouldn't require any RequireError.
+    loop {
+        match vm.fire() {
+            Err(RequireError::Account(address)) => {
+                vm.commit_account(AccountCommitment::Nonexist(address));
+            },
+            Err(RequireError::AccountCode(address)) => {
+                vm.commit_account(AccountCommitment::Nonexist(address));
+            },
+            Err(RequireError::AccountStorage(address, _)) => {
+                vm.commit_account(AccountCommitment::Nonexist(address));
+            },
+            Err(RequireError::Blockhash(number)) => {
+                vm.commit_blockhash(number, H256::default());
+            },
+            Ok(_) => break,
+        }
+    }
+
+    match vm.status() {
+        VMStatus::ExitedOk => system::debug_test_succeed(),
+        _ => system::debug_test_fail(),
     }
 }
