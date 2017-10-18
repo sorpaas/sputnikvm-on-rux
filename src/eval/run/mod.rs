@@ -47,6 +47,7 @@ mod arithmetic;
 mod bitwise;
 mod flow;
 mod environment;
+mod system;
 
 use bigint::{M256, MI256, U256, Address, Gas};
 use core::ops::{Add, Sub, Mul, Div, Rem, BitAnd, BitOr, BitXor};
@@ -83,7 +84,7 @@ pub fn run_opcode<M: Memory + Default, P: Patch>(pc: (Instruction, usize), state
         Instruction::NOT => { bitwise::not(state); None },
         Instruction::BYTE => { bitwise::byte(state); None },
 
-        Instruction::SHA3 => { unimplemented!() },
+        Instruction::SHA3 => { system::sha3(state); None },
 
         Instruction::ADDRESS => { push!(state, state.context.address.into()); None },
         Instruction::BALANCE => { pop!(state, address: Address);
@@ -159,15 +160,15 @@ pub fn run_opcode<M: Memory + Default, P: Patch>(pc: (Instruction, usize), state
                                   state.stack.set(0, val2).unwrap();
                                   state.stack.set(v, val1).unwrap();
                                   None },
-        Instruction::LOG(v) => { unimplemented!() },
+        Instruction::LOG(v) => { system::log(state, v); None },
 
-        Instruction::CREATE => { unimplemented!() },
-        Instruction::CALL => { unimplemented!() },
-        Instruction::CALLCODE => { unimplemented!() },
-        Instruction::DELEGATECALL => { unimplemented!() },
+        Instruction::CREATE => { system::create::<M, P>(state, after_gas) },
+        Instruction::CALL => { system::call::<M, P>(state, stipend_gas, after_gas, false) },
+        Instruction::CALLCODE => { system::call::<M, P>(state, stipend_gas, after_gas, true) },
+        Instruction::DELEGATECALL => { system::delegate_call::<M, P>(state, after_gas) },
         Instruction::RETURN => { pop!(state, start: U256, len: U256);
                                  state.out = copy_from_memory(&mut state.memory, start, len);
                                  Some(Control::Stop) },
-        Instruction::SUICIDE => { unimplemented!() },
+        Instruction::SUICIDE => { system::suicide(state); Some(Control::Stop) },
     }
 }

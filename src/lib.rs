@@ -20,6 +20,7 @@ extern crate byteorder;
 extern crate lazy_static;
 #[macro_use]
 extern crate alloc;
+extern crate sha3;
 
 pub mod rlp;
 pub mod elastic_array;
@@ -34,6 +35,7 @@ mod params;
 mod eval;
 mod commit;
 mod patch;
+mod transaction;
 pub mod errors;
 
 pub use self::memory::{Memory, SeqMemory};
@@ -43,6 +45,7 @@ pub use self::params::*;
 pub use self::patch::*;
 pub use self::eval::{State, Machine, MachineStatus};
 pub use self::commit::{AccountCommitment, AccountChange, AccountState, BlockhashState, Storage};
+pub use self::transaction::{ValidTransaction, TransactionVM};
 pub use self::errors::{OnChainError, NotSupportedError, RequireError, CommitError, PreExecutionError};
 pub use self::util::opcode::Opcode;
 
@@ -112,6 +115,9 @@ pub trait VM {
 /// A sequencial VM. It uses sequencial memory representation and hash
 /// map storage for accounts.
 pub type SeqContextVM<P> = ContextVM<SeqMemory<P>, P>;
+/// A sequencial transaction VM. This is same as `SeqContextVM` except
+/// it runs at transaction level.
+pub type SeqTransactionVM<P> = TransactionVM<SeqMemory<P>, P>;
 
 /// A VM that executes using a context and block information.
 pub struct ContextVM<M, P: Patch> {
