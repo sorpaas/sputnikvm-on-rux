@@ -11,15 +11,20 @@ extern crate spin;
 extern crate selfalloc;
 extern crate alloc;
 extern crate sputnikvm;
+extern crate rlp;
+extern crate hexutil;
+extern crate bigint;
+extern crate block_core;
 
 use alloc::Vec;
 use alloc::str::FromStr;
 
 use system::{CAddr};
-use sputnikvm::{VM, HeaderParams, Context, SeqContextVM, MainnetEmbeddedPatch, RequireError, AccountCommitment, TransactionAction, ValidTransaction, VMStatus, SeqTransactionVM};
-use sputnikvm::bigint::{Gas, H256, U256, Address};
-use sputnikvm::rlp::Rlp;
-use sputnikvm::hexutil::*;
+use sputnikvm::{VM, HeaderParams, Context, SeqContextVM, MainnetEmbeddedPatch, RequireError, AccountCommitment, ValidTransaction, VMStatus, SeqTransactionVM};
+use block_core::{TransactionAction};
+use bigint::{Gas, H256, U256, Address};
+use rlp::Rlp;
+use hexutil::*;
 
 #[lang="start"]
 #[no_mangle]

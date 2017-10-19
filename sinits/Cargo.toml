@@ -25,5 +25,22 @@ path = "../rux/spin"
 [dependencies.selfalloc]
 path = "../rux/selfalloc"
 
-[dependencies.sputnikvm-nostd]
-path = ".."
+[dependencies.sputnikvm]
+version = "0.7"
+default-features = false
+
+[dependencies.etcommon-bigint]
+version = "0.2"
+default-features = false
+
+[dependencies.etcommon-rlp]
+version = "0.2"
+default-features = false
+
+[dependencies.etcommon-hexutil]
+version = "0.2"
+default-features = false
+
+[dependencies.etcommon-block-core]
+version = "0.1"
+default-features = false

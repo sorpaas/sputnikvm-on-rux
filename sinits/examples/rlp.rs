@@ -11,13 +11,16 @@ extern crate spin;
 extern crate selfalloc;
 extern crate alloc;
 extern crate sputnikvm;
+extern crate rlp;
+extern crate hexutil;
+extern crate bigint;
 
 use alloc::str::FromStr;
 
 use system::{CAddr};
-use sputnikvm::bigint::H256;
-use sputnikvm::rlp::Rlp;
-use sputnikvm::hexutil::*;
+use bigint::H256;
+use rlp::Rlp;
+use hexutil::*;
 
 #[lang="start"]
 #[no_mangle]
