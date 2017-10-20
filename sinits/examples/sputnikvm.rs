@@ -54,7 +54,6 @@ fn start(_argc: isize, _argv: *const *const u8) {
     };
 
     let mut vm = SeqContextVM::<MainnetEmbeddedPatch>::new(context, header.clone());
-    // TODO: Shouldn't require any RequireError.
     loop {
         match vm.fire() {
             Err(RequireError::Account(address)) => {
@@ -89,7 +88,6 @@ fn start(_argc: isize, _argv: *const *const u8) {
     };
 
     let mut vm = SeqTransactionVM::<MainnetEmbeddedPatch>::new(transaction, header.clone());
-    // TODO: Shouldn't require any RequireError.
     loop {
         match vm.fire() {
             Err(RequireError::Account(address)) => {
